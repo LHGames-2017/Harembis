@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StarterProject.Web.Api;
 
-namespace LHGames
+namespace Harembis
 {
     public class MapManager
     {
@@ -48,6 +48,11 @@ namespace LHGames
                 }
             }
             return getCloser(toCollect);
+        }
+
+        public float getDistance(Point point)
+        {
+            return MathF.Sqrt(MathF.Pow(point.X - player.X, 2) + MathF.Pow(point.Y - player.Y, 2));
         }
 
         GameInfo gameInfo_;
