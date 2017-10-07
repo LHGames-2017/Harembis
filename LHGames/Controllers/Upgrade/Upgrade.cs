@@ -1,50 +1,41 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using StarterProject.Web.Api;
 
 namespace Harembis
 {
     
-public class Upgrade{
+public abstract class Upgrade{
 
 
-    Player ourPlayer_;
+    protected Player ourPlayer_;
 
-    uint attackWeight_;
+        protected ExtendedInfo infos_;
 
-    uint protectionWeight_;
+    protected int attackWeight_;
 
-    uint gatherWeight_;
+    protected int defenceWeight_;
 
-   Upgrade(Player ourPlayer){
+        protected int healthWeight_;
+
+        protected int capacityWeight_;
+
+    protected int collectingWeight_;
+
+        public Upgrade(Player ourPlayer, ExtendedInfo infos){
        ourPlayer_=ourPlayer;
-       updateNext();
+            infos_ = infos;
 
-   } 
+   }
 
-   public void updateNext()=0;
+        protected abstract void updateAllWeight();
 
-   void updateAllWeight(){
-
-        updateAttack();
-        updateGather();
-        updateProtection();
-    };
-
-    void updateAttack()=0;
-
-    void updateGather()=0;
-
-    void updateProtection()=0;
-
-    uint calculateWeight(uint bonus, uint total, uint cost)
+    protected int calculateWeight(double bonus, int total, int cost)
     {
-        return WEIGHT_FACTOR*(bonus/(total*(cost/COST_ADJUSTEMENT))
+            return (int)(Constantes.WEIGHT_FACTOR * (bonus / (total * (cost / Constantes.COST_ADJUSTEMENT))));
     }
 
 
 }
  
-}
-
 }
