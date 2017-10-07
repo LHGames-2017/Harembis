@@ -9,18 +9,18 @@ namespace Harembis
 
         Player ourPlayer_;
 
-        int protection_;
-        int defence_;
-        int attack_;
-        int gatherSpeed_;
+        static int protection_;
+        static int defence_;
+        static int attack_;
+       static int gatherSpeed_;
 
-        HeldItems items_;
+       static HeldItems items_;
 
-        StatLevels levels_;
+        static StatLevels levels_;
 
         const int DEFENCE_WEIGHT = 5;
 
-        ExtendedInfo(Player ourPlayer, StartingState state){
+        public ExtendedInfo(Player ourPlayer, StartingState state){
             ourPlayer_=ourPlayer;
             items_ = state.items;
             levels_ = state.levels;
