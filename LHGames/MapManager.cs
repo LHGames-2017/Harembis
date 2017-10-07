@@ -29,8 +29,10 @@ namespace Harembis
                 for (int j = -1; j < 2; j++)
                 {
                     if (map_[10 + j, 10 + i].C == (byte)type)
+                    {
                         tmp = new Point(map_[10 + j, 10 + i].X, map_[10 + j, 10 + i].X);
-                    return true;
+                        return true;
+                    }
                 }
             }
             return false;

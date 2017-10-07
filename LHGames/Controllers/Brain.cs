@@ -17,7 +17,7 @@ namespace Harembis
 
         static Grade HPState, capacityState;
         
-        static PlayerInfo currentEnemy;
+        //static PlayerInfo currentEnemy;
 
         static MapManager mapManager;
 
@@ -25,7 +25,7 @@ namespace Harembis
 
         static bool isBought;
 
-        Brain(GameInfo gameInfo, StartingState state, Tile [,] map)
+       public Brain(GameInfo gameInfo, StartingState state, Tile [,] map)
         {
             gameInfo_ = gameInfo;
             extendedInfo_= new ExtendedInfo(gameInfo_.Player, state);
@@ -33,6 +33,7 @@ namespace Harembis
             skillUpgrade_ = new UpgradeSkill(gameInfo_.Player, extendedInfo_);
             itemPurchase_ = new UpgradeItem(gameInfo_.Player, extendedInfo_);
             currentState_ = States.Mine;
+            HPState = Grade.FULL;
             
         }
 
@@ -59,18 +60,19 @@ namespace Harembis
 
                 case States.Upgrade:
                     return getNextActionUpgrade();
-                    
+                default:
+                    return mapManager.mine();
 
             }
 
         }
 
-        string getNextActionFight(){
-            if (mapManager.isAdjacent(currentEnemy.Position))
-                return AIHelper.CreateAttackAction(currentEnemy.Position);
-            else
-                return mapManager.getCloser(currentEnemy.Position);
-        }
+        //string getNextActionFight(){
+        //    if (mapManager.isAdjacent(currentEnemy.Position))
+        //        return AIHelper.CreateAttackAction(currentEnemy.Position);
+        //    else
+        //        return mapManager.getCloser(currentEnemy.Position);
+        //}
 
         string getNextActionUpgrade(){
             if (mapManager.isHome())
@@ -142,7 +144,7 @@ namespace Harembis
         {
             States nextState = States.Mine;
 
-            if (capacityState == Grade.FULL || capacityState ==Grade.HIGH)
+            if (capacityState == Grade.FULL )
             {
                     nextState = States.Upgrade;
                     isUpgraded = false;
@@ -197,8 +199,8 @@ namespace Harembis
         Tuple<bool, States> Purchase()
         {
             Tuple<bool, States> answer = new Tuple<bool, States>(false,States.Scout);
-            float homeDistance = mapManager.getDistance(gameInfo_.Player.HouseLocation),
-                shopDistance=mapManager.getDistance(mapManager.closestShop());
+            float homeDistance = mapManager.getDistance(gameInfo_.Player.HouseLocation);
+                //shopDistance=mapManager.getDistance(mapManager.closestShop());
             bool affordUpgrade = skillUpgrade_.getNextSkill().Item2 < extendedInfo_.getTotalRessource();
                
 
