@@ -67,7 +67,11 @@ namespace Harembis
 
         string getNextActionUpgrade(){
             if (mapManager.isHome())
-                return AIHelper.CreateUpgradeAction(skillUpgrade_.getNextSkill().Item1);
+            {
+                UpgradeType type = skillUpgrade_.getNextSkill().Item1;
+                extendedInfo_.upgradeStat(type);
+                return AIHelper.CreateUpgradeAction(type);
+            }
             else
                 return mapManager.getCloser(gameInfo_.Player.HouseLocation);
         }
