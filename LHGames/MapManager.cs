@@ -22,6 +22,19 @@ namespace Harembis
         {
             return ((MathF.Abs(player.X - point.X) == 1) ^ (MathF.Abs(player.Y - point.Y) == 1));
         }
+        public bool isAdjacent(TileType type)
+        {
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if (map_[10 + j, 10 + i].C == (byte)type)
+                        tmp = new Point(map_[10 + j, 10 + i].X, map_[10 + j, 10 + i].X);
+                    return true;
+                }
+            }
+            return false;
+        }
         public string getCloser(Point point)
         {
             int x = 0;
@@ -31,7 +44,51 @@ namespace Harembis
             if (x == 0 && point.Y != player.Y)
                 y = (int)((point.Y - player.Y) / MathF.Abs(point.Y - player.Y));
 
-            return AIHelper.CreateMoveAction(new Point(player.X + x, player.Y + y));
+            Point nPoint = new Point(player.X + x, player.Y + y);
+            Point nextPoint = pointToMap(nPoint);
+            switch ((TileType)map_[nextPoint.Y, nextPoint.X].C)
+            {
+                case TileType.W:
+                    return AIHelper.CreateAttackAction(nPoint);
+                case TileType.L:
+                    Point p = new Point(player.X + 1, player.Y);
+                    if (canMove(p))
+                        return getCloser(p);
+                    p = new Point(player.X, player.Y+1);
+                    if (canMove(p))
+                        return getCloser(p);
+                    p = new Point(player.X, player.Y - 1);
+                    if (canMove(p))
+                        return getCloser(p);
+                    p = new Point(player.X - 1, player.Y);
+                    if (canMove(p))
+                        return getCloser(p);
+                    break;
+                case TileType.R:
+                    mine();
+                    break;
+            }
+            return AIHelper.CreateMoveAction(nextPoint);
+        }
+
+        public bool canMove(Point point)
+        {
+            Point nPoint = new Point(player.X + point.X, player.Y + point.Y);
+            Point nextPoint = pointToMap(nPoint);
+            switch ((TileType)map_[nextPoint.Y, nextPoint.X].C)
+            {
+                case TileType.L:
+                    return false;
+                case TileType.R:
+                    return false;
+                case TileType.S:
+                    return false;
+                default:
+                    return true;
+            }
+            {
+                
+            }
         }
         public string getCloser(TileType type)
         {
@@ -55,9 +112,37 @@ namespace Harembis
             return MathF.Sqrt(MathF.Pow(point.X - player.X, 2) + MathF.Pow(point.Y - player.Y, 2));
         }
 
+        public string mine()
+        {
+            if (isAdjacent(TileType.R))
+                return AIHelper.CreateCollectAction(tmp);
+            else
+                return getCloser(TileType.R);
+        }
+
+        public string GoHome()
+        {
+            return getCloser(gameInfo_.Player.HouseLocation);
+        }
+
+        public Point pointToMap(Point point)
+        {
+            int x = point.X - player.X + 10;
+            int y = point.Y - player.Y + 10;
+            if (x < 0)
+                x = 0;
+            else if (x > 20)
+                x = 20;
+            if (y < 0)
+                y = 0;
+            else if (y > 20)
+                y = 20;
+            return new Point(x, y);
+        }
         GameInfo gameInfo_;
         Tile[,] map_;
         Point player;
+        Point tmp;
 
     }
 }

@@ -42,10 +42,13 @@ namespace Harembis
             switch (currentState_)
             {
                 case States.Fight:
+                    return getNextActionFight();
 
                 case States.GoHome:
                     
+                    
                 case States.Mine:
+                    return mapManager.mine();
 
                 case States.Purchase:
 
@@ -54,12 +57,32 @@ namespace Harembis
                 case States.Scout:
 
                 case States.Upgrade:
-
+                    getNextActionUpgrade();
                     break;
 
             }
 
         }
+
+        string getNextActionFight(){
+            if (mapManager.isAdjacent(currentEnemy.Position))
+                return AIHelper.CreateAttackAction(currentEnemy.Position);
+            else
+                return mapManager.getCloser(currentEnemy.Position);
+        }
+
+        string getNextActionUpgrade(){
+            if (mapManager.isHome())
+            {
+                UpgradeType type = skillUpgrade_.getNextSkill().Item1;
+                extendedInfo_.upgradeStat(type);
+                return AIHelper.CreateUpgradeAction(type);
+            }
+            else
+                return mapManager.getCloser(gameInfo_.Player.HouseLocation);
+        }
+
+
 
         void updateCurrentState()
         {
