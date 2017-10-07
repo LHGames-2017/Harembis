@@ -4,17 +4,18 @@ using StarterProject.Web.Api;
 
 namespace Harembis
 {
-    
-    
-    static const uint ATTACK_MODIFIER = 10;
-    static const uint PROTECTION_MODIFIER = 30;
-    static const uint GATHER_MODIFIER = 60;
-    static const uint WEIGHT_FACTOR = 100;
-    static const uint COST_ADJUSTEMENT = 1000;
-    
+
+    public static class Constantes
+    {
+       public const uint ATTACK_MODIFIER = 10;
+       public const uint PROTECTION_MODIFIER = 30;
+        public const uint GATHER_MODIFIER = 60;
+       public const uint WEIGHT_FACTOR = 100;
+        public const uint COST_ADJUSTEMENT = 1000;
+    }
     public struct HeldItems{
 
-        public HeldItems(bool sword, bool shield, bool backpack, bool pickaxe, uint potions)
+        public HeldItems(bool sword, bool shield, bool backpack, bool pickaxe, int potions)
         {
             MicrosoftSword = sword;
             UbisoftShield = shield;
@@ -27,18 +28,20 @@ namespace Harembis
         UbisoftShield,
         DevolutionsBackpack,
         DevolutionsPickaxe;
-        public uint HealthPotion;
+        public int HealthPotion;
     }
 
     public struct StatLevels{
 
+        public StatLevels(int capacity, int attack, int defence, int health, int speed) {
+            CarryingCapacity = capacity;
+            AttackPower = attack;
+            Defence = defence;
+            MaximumHealth = health;
+            CollectingSpeed = speed;
+            }
 
-        CarryingCapacity
-           AttackPower
-            Defence
-            MaximumHealth,
-            CollectingSpeed
-        public uint CarryingCapacity,
+        public int CarryingCapacity,
         AttackPower,
         Defence,
         MaximumHealth,
