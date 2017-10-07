@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StarterProject.Web.Api;
 
-namespace LHGames
+namespace Harembis
 {
     public class MapManager
     {
