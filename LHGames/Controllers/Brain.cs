@@ -13,10 +13,11 @@ namespace Harembis
         static UpgradeItem itemPurchase_;
         static GameInfo gameInfo_;
 
-        static States currentActionState_;
+        static States currentState_;
 
         static Grade HPState, capacityState;
         
+        static PlayerInfo currentEnemy;
 
         Brain(GameInfo gameInfo, StartingState state)
         {
@@ -61,6 +62,8 @@ namespace Harembis
                 case States.GoHome:
 
                 case States.Mine:
+                    currentState_ = findNextStateMine();
+                    break;
 
                 case States.Purchase:
 
@@ -74,6 +77,30 @@ namespace Harembis
 
             }
 
+        }
+
+        States findNextStateMine()
+        {
+            States nextState = States.Mine;
+
+            if (capacityState == Grade.FULL|| capacityState ==Grade.HIGH)
+            {
+                nextState = States.GoHome;
+            }
+
+            return nextState;
+        }
+
+        States findNextStateGoHome()
+        {
+            States nextState=States.GoHome;
+
+            if (isHome)
+            {
+
+            }
+
+            return nextState;
         }
 
         void updatePlayerState()
