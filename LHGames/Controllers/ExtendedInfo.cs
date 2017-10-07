@@ -61,14 +61,114 @@ namespace Harembis
             return gatherSpeed_;
         }
 
+        public int nextUpgradeCost(UpgradeType stat)
+        {
+            int cost=1000000000;
+            switch (stat) {
+                case UpgradeType.AttackPower:
+                    cost = upgradeCostPerLevel(levels_.AttackPower, true);
+                    break;
+                case UpgradeType.CarryingCapacity:
+                    cost = upgradeCostPerLevel(levels_.CarryingCapacity, true);
+                    break;
+                case UpgradeType.CollectingSpeed:
+                    cost = upgradeCostPerLevel(levels_.CollectingSpeed, true);
+                    break;
+                case UpgradeType.Defence:
+                    cost = upgradeCostPerLevel(levels_.Defence, true);
+                    break;
+                case UpgradeType.MaximumHealth:
+                    cost = upgradeCostPerLevel(levels_.MaximumHealth, false);
+                    break;
+            }
+            return cost;
+        }
+
+        int upgradeCostPerLevel(int level, bool type) {
+
+            
+            if (type)
+            {
+                switch (level)
+                {
+                    case 0:
+                        return 15000;
+                    case 1:
+                        return 50000;
+                    case 2:
+                        return 100000;
+                    case 3:
+                        return 250000;
+                    default:
+                        return 500000;
+
+                }
+            }else
+            {
+                switch (level)
+                {
+                    case 0:
+                        return 10000;
+                    case 1:
+                        return 20000;
+                    case 2:
+                        return 30000;
+                    case 3:
+                        return 50000;
+                    default:
+                        return 100000;
+
+                }
+            }
+           
+        }
+
         public void buyItem(PurchasableItem item) {
 
             switch (item){
-                case 
+                case PurchasableItem.MicrosoftSword:
+                    items_.MicrosoftSword = true;
+                    break;
+                case PurchasableItem.UbisoftShield:
+                    items_.UbisoftShield = true;
+                    break;
+                case PurchasableItem.DevolutionsBackpack:
+                    items_.DevolutionsBackpack = true;
+                    break;
+                case PurchasableItem.DevolutionsPickaxe:
+                    items_.DevolutionsPickaxe = true;
+                    break;
+                case PurchasableItem.HealthPotion:
+                    items_.HealthPotion +=1;
+                    break;
             }
         }
 
-        public void upgradeStat(UpgradeType stat) { }
+        public void upgradeStat(UpgradeType stat) {
+
+            switch (stat)
+            {
+                case UpgradeType.AttackPower:
+                    levels_.AttackPower++;
+                    break;
+                case UpgradeType.CarryingCapacity:
+                    levels_.CarryingCapacity++;
+                    break;
+                case UpgradeType.CollectingSpeed:
+                    levels_.CollectingSpeed++;
+                    break;
+                case UpgradeType.Defence:
+                    levels_.Defence++;
+                    break;
+                case UpgradeType.MaximumHealth:
+                    levels_.MaximumHealth++;
+                    break;
+
+            }
+
+
+
+        }
 
         public int calculateProtection(int defence)
         {

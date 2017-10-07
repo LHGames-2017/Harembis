@@ -7,11 +7,15 @@ namespace Harembis
 
     public static class Constantes
     {
-       public const uint ATTACK_MODIFIER = 10;
-       public const uint PROTECTION_MODIFIER = 30;
-        public const uint GATHER_MODIFIER = 60;
-       public const uint WEIGHT_FACTOR = 100;
-        public const uint COST_ADJUSTEMENT = 1000;
+       public const int ATTACK_MODIFIER = 10;
+       public const int PROTECTION_MODIFIER = 30;
+        public const int GATHER_MODIFIER = 60;
+        public const int GATHERSPEED_MODIFIER = 30;
+        public const int CAPACITE_MODIFIER = 30;
+        public const int DEFENCE_MODIFIER = 15;
+        public const int HEALTH_MODIFIER = 15;
+       public const int WEIGHT_FACTOR = 100;
+        public const int COST_ADJUSTEMENT = 1000;
     }
     public struct HeldItems{
 
