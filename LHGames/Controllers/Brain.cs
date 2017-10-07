@@ -19,10 +19,13 @@ namespace Harembis
         
         static PlayerInfo currentEnemy;
 
-        Brain(GameInfo gameInfo, StartingState state)
+        static MapManager mapManager;
+
+        Brain(GameInfo gameInfo, StartingState state, Tile [,] map)
         {
             gameInfo_ = gameInfo;
             extendedInfo_= new ExtendedInfo(gameInfo_.Player, state);
+            mapManager = new MapManager(gameInfo, map);
             
         }
 
@@ -35,7 +38,7 @@ namespace Harembis
                 case States.Fight:
 
                 case States.GoHome:
-
+                    
                 case States.Mine:
 
                 case States.Purchase:
@@ -60,6 +63,8 @@ namespace Harembis
                 case States.Fight:
 
                 case States.GoHome:
+                    currentState_ = findNextStateGoHome();
+                    break;
 
                 case States.Mine:
                     currentState_ = findNextStateMine();
@@ -68,7 +73,8 @@ namespace Harembis
                 case States.Purchase:
 
                 case States.Run:
-
+                    currentState_ = findNextStateRun();
+                    break;
                 case States.Scout:
 
                 case States.Upgrade:
@@ -79,12 +85,30 @@ namespace Harembis
 
         }
 
+
+        States findNextStateUpgrade()
+        {
+            States nextState= States.Upgrade;
+
+            return nextState;
+        } 
+
+        States findNextStateRun()
+        {
+            States nextState = States.Run;
+
+            
+
+            return nextState;
+        }
+
         States findNextStateMine()
         {
             States nextState = States.Mine;
 
-            if (capacityState == Grade.FULL|| capacityState ==Grade.HIGH)
+            if (capacityState == Grade.FULL || capacityState ==Grade.HIGH)
             {
+                if()
                 nextState = States.GoHome;
             }
 
@@ -95,13 +119,15 @@ namespace Harembis
         {
             States nextState=States.GoHome;
 
-            if (isHome)
+            if (mapManager.isHome())
             {
-
+                nextState = States.Mine;
             }
 
             return nextState;
         }
+
+
 
         void updatePlayerState()
         {
