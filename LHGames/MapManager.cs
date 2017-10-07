@@ -22,6 +22,19 @@ namespace Harembis
         {
             return ((MathF.Abs(player.X - point.X) == 1) ^ (MathF.Abs(player.Y - point.Y) == 1));
         }
+        public bool isAdjacent(TileType type)
+        {
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if (map_[10 + j, 10 + i].C == (byte)type)
+                        tmp = new Point(map_[10 + j, 10 + i].X, map_[10 + j, 10 + i].X);
+                        return true;
+                }
+            }
+            return false;
+        }
         public string getCloser(Point point)
         {
             int x = 0;
@@ -55,9 +68,18 @@ namespace Harembis
             return MathF.Sqrt(MathF.Pow(point.X - player.X, 2) + MathF.Pow(point.Y - player.Y, 2));
         }
 
+        public string mine()
+        {
+            if (isAdjacent(TileType.R))
+                return AIHelper.CreateCollectAction(tmp);
+            else
+                return getCloser(TileType.R);  
+        }
+
         GameInfo gameInfo_;
         Tile[,] map_;
         Point player;
+        Point tmp;
 
     }
 }
