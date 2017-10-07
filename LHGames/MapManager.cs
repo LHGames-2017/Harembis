@@ -50,6 +50,11 @@ namespace LHGames
             return getCloser(toCollect);
         }
 
+        public float getDistance(Point point)
+        {
+            return MathF.Sqrt(MathF.Pow(point.X - player.X, 2) + MathF.Pow(point.Y - player.Y, 2));
+        }
+
         GameInfo gameInfo_;
         Tile[,] map_;
         Point player;
