@@ -32,6 +32,7 @@ namespace Harembis
             mapManager = new MapManager(gameInfo, map);
             skillUpgrade_ = new UpgradeSkill(gameInfo_.Player, extendedInfo_);
             itemPurchase_ = new UpgradeItem(gameInfo_.Player, extendedInfo_);
+            currentState_ = States.Mine;
             
         }
 
@@ -41,24 +42,24 @@ namespace Harembis
 
             switch (currentState_)
             {
-                case States.Fight:
-                    return getNextActionFight();
+                //case States.Fight:
+                  //  return getNextActionFight();
 
-                case States.GoHome:
+                //case States.GoHome:
                     
                     
                 case States.Mine:
                     return mapManager.mine();
 
-                case States.Purchase:
+              //  case States.Purchase:
 
-                case States.Run:
+                //case States.Run:
 
-                case States.Scout:
+               // case States.Scout:
 
                 case States.Upgrade:
-                    getNextActionUpgrade();
-                    break;
+                    return getNextActionUpgrade();
+                    
 
             }
 
@@ -74,6 +75,7 @@ namespace Harembis
         string getNextActionUpgrade(){
             if (mapManager.isHome())
             {
+                isUpgraded = true;
                 UpgradeType type = skillUpgrade_.getNextSkill().Item1;
                 extendedInfo_.upgradeStat(type);
                 return AIHelper.CreateUpgradeAction(type);
@@ -143,6 +145,7 @@ namespace Harembis
             if (capacityState == Grade.FULL || capacityState ==Grade.HIGH)
             {
                     nextState = States.Upgrade;
+                    isUpgraded = false;
                 }
             
 
