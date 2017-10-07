@@ -21,11 +21,17 @@ namespace Harembis
 
         static MapManager mapManager;
 
+        static bool isUpgraded;
+
+        static bool isBought;
+
         Brain(GameInfo gameInfo, StartingState state, Tile [,] map)
         {
             gameInfo_ = gameInfo;
             extendedInfo_= new ExtendedInfo(gameInfo_.Player, state);
             mapManager = new MapManager(gameInfo, map);
+            skillUpgrade_ = new UpgradeSkill(gameInfo_.Player, extendedInfo_);
+            itemPurchase_ = new UpgradeItem(gameInfo_.Player, extendedInfo_);
             
         }
 
@@ -71,7 +77,8 @@ namespace Harembis
                     break;
 
                 case States.Purchase:
-
+                    currentState_ = findNextStateUpgrade();
+                    break;
                 case States.Run:
                     currentState_ = findNextStateRun();
                     break;
@@ -89,6 +96,10 @@ namespace Harembis
         States findNextStateUpgrade()
         {
             States nextState= States.Upgrade;
+            if(isUpgraded)
+            {
+                nextState = States.Mine;
+            }
 
             return nextState;
         } 
@@ -108,9 +119,9 @@ namespace Harembis
 
             if (capacityState == Grade.FULL || capacityState ==Grade.HIGH)
             {
-                if()
-                nextState = States.GoHome;
-            }
+                    nextState = States.Upgrade;
+                }
+            
 
             return nextState;
         }
@@ -119,15 +130,12 @@ namespace Harembis
         {
             States nextState=States.GoHome;
 
-            if (mapManager.isHome())
-            {
-                nextState = States.Mine;
-            }
-
+       
+ 
             return nextState;
         }
 
-
+        
 
         void updatePlayerState()
         {
@@ -158,6 +166,30 @@ namespace Harembis
             {
                 HPState = Grade.VERYLOW;
             }
+        }
+
+        Tuple<bool, States> Purchase()
+        {
+            Tuple<bool, States> answer = new Tuple<bool, States>(false,States.Scout);
+            float homeDistance = mapManager.getDistance(gameInfo_.Player.HouseLocation),
+                shopDistance=mapManager.getDistance(mapManager.closestShop());
+            bool affordUpgrade = skillUpgrade_.getNextSkill().Item2 < extendedInfo_.getTotalRessource();
+               
+
+
+
+            if (skillUpgrade_.getNextSkill().Item3 >= itemPurchase_.getNextItem().Item3) {
+                if(gameInfo_.Player.CarriedResources > skillUpgrade_.getNextSkill().Item2)
+                {
+                    answer = new Tuple<bool, States>(true, States.Purchase);
+                }
+              
+            }else
+            {
+
+            }
+
+            return answer;
         }
 
         void updateCapacityState() {

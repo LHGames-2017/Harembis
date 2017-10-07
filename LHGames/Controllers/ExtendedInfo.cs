@@ -18,12 +18,17 @@ namespace Harembis
 
         static StatLevels levels_;
 
+        static int houseRessource_;
+
+        static int totalRessource_;
+
         const int DEFENCE_WEIGHT = 5;
 
         public ExtendedInfo(Player ourPlayer, StartingState state){
             ourPlayer_=ourPlayer;
             items_ = state.items;
             levels_ = state.levels;
+            houseRessource_ = state.houseRessource;
             updateAll();
         }
 
@@ -82,6 +87,16 @@ namespace Harembis
                     break;
             }
             return cost;
+        }
+        void dropRessource(int amount)
+        {
+            houseRessource_ += amount;
+        }
+
+        public int getTotalRessource()
+        {
+            updateRessource();
+            return totalRessource_;
         }
 
         int upgradeCostPerLevel(int level, bool type) {
@@ -235,9 +250,12 @@ namespace Harembis
             updateAttack();
             updateProtection();
             updateGatherSpeed();
-            
+            updateRessource();
         }
 
-
+        void updateRessource()
+        {
+            totalRessource_ = houseRessource_ + ourPlayer_.CarriedResources;
+        }
     }
 }

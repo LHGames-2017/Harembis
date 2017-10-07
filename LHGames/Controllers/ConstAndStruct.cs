@@ -56,6 +56,7 @@ namespace Harembis
     {
         public HeldItems items;
         public StatLevels levels;
+        public int houseRessource;
     }
 
     public enum States
