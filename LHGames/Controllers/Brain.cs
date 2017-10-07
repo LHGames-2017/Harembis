@@ -36,10 +36,12 @@ namespace Harembis
             switch (currentState_)
             {
                 case States.Fight:
+                    return getNextActionFight();
 
                 case States.GoHome:
                     
                 case States.Mine:
+                    return mapManager.mine();
 
                 case States.Purchase:
 
@@ -48,11 +50,22 @@ namespace Harembis
                 case States.Scout:
 
                 case States.Upgrade:
-
+                    getNextActionUpgrade();
                     break;
 
             }
 
+        }
+
+        string getNextActionFight(){
+            if (mapManager.isAdjacent(currentEnemy.Position))
+                return AIHelper.CreateAttackAction(currentEnemy.Position);
+            else
+                return mapManager.getCloser(currentEnemy.Position);
+        }
+
+        string getNextActionUpgrade(){
+            return AIHelper.CreateUpgradeAction(skillUpgrade_.getNextSkill().Item1);
         }
 
         void updateCurrentState()
