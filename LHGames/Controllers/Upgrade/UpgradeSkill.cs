@@ -9,7 +9,17 @@ namespace Harembis
     {
         public UpgradeSkill(Player ourPlayer, ExtendedInfo infos) : base(ourPlayer, infos){}
 
+        protected override void updateAllWeight(){
+            updateAttack();
+            updateHealth();
+            updateDefence();
+            updateCapacity();
+            updateCollecting();
+        }
+
 		public Tuple<UpgradeType, int, int> getNextSkill(){
+            updateAllWeight();
+
             UpgradeType type;
             int cost, weight;
 
@@ -42,11 +52,7 @@ namespace Harembis
             return new Tuple<UpgradeType, int, int>(type, cost, weight);
         }
 
-        protected override void updateAttack(){
-            attackWeight_ = Constantes.ATTACK_MODIFIER * calculateWeight(2, infos_.getAttack(), infos_.nextUpgradeCost(UpgradeType.AttackPower));
-        }
-
-        protected override void updateCollecting(){
+        void updateCollecting(){
             double bonus;
 
             switch (infos_.getLevels().CollectingSpeed){
@@ -70,12 +76,7 @@ namespace Harembis
             collectingWeight_ = Constantes.GATHER_MODIFIER * calculateWeight(bonus, infos_.getGatherSpeed(), infos_.nextUpgradeCost(UpgradeType.CollectingSpeed));
 		}
 
-        protected override void updateDefence(){
-            defenceWeight_ = Constantes.DEFENCE_MODIFIER * calculateWeight(2, infos_.getDefence(), infos_.nextUpgradeCost(UpgradeType.Defence));
-
-		}
-
-        protected override void updateHealth(){
+        void updateHealth(){
 			double bonus;
 
             switch (infos_.getLevels().MaximumHealth)
@@ -101,7 +102,7 @@ namespace Harembis
             healthWeight_ = Constantes.HEALTH_MODIFIER * calculateWeight(bonus, ourPlayer_.MaxHealth, infos_.nextUpgradeCost(UpgradeType.MaximumHealth));
         }
 
-        protected override void updateCapacity(){
+        void updateCapacity(){
 			double bonus;
 
             switch (infos_.getLevels().CarryingCapacity)
@@ -129,6 +130,17 @@ namespace Harembis
 
             capacityWeight_ = Constantes.CAPACITE_MODIFIER * calculateWeight(bonus, ourPlayer_.CarryingCapacity, infos_.nextUpgradeCost(UpgradeType.CarryingCapacity));
         }
+
+		void updateAttack()
+		{
+			attackWeight_ = Constantes.ATTACK_MODIFIER * calculateWeight(2, infos_.getAttack(), infos_.nextUpgradeCost(UpgradeType.AttackPower));
+		}
+
+		void updateDefence()
+		{
+			defenceWeight_ = Constantes.DEFENCE_MODIFIER * calculateWeight(2, infos_.getDefence(), infos_.nextUpgradeCost(UpgradeType.Defence));
+
+		}
 
     }
 }

@@ -26,26 +26,9 @@ public abstract class Upgrade{
        ourPlayer_=ourPlayer;
             infos_ = infos;
 
-   } 
+   }
 
-   public void updateAllWeight(){
-
-        updateAttack();
-            updateCollecting();
-            updateDefence();
-            updateCapacity();
-            updateHealth();
-    }
-
-        protected abstract void updateAttack();
-
-        protected abstract void updateCollecting();
-
-        protected abstract void updateDefence();
-
-        protected abstract void updateHealth();
-
-        protected abstract void updateCapacity();
+        protected abstract void updateAllWeight();
 
     protected int calculateWeight(double bonus, int total, int cost)
     {
