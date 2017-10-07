@@ -40,6 +40,7 @@ namespace Harembis
 
                 case States.GoHome:
                     
+                    
                 case States.Mine:
                     return mapManager.mine();
 
@@ -65,8 +66,13 @@ namespace Harembis
         }
 
         string getNextActionUpgrade(){
-            return AIHelper.CreateUpgradeAction(skillUpgrade_.getNextSkill().Item1);
+            if (mapManager.isHome())
+                return AIHelper.CreateUpgradeAction(skillUpgrade_.getNextSkill().Item1);
+            else
+                return mapManager.getCloser(gameInfo_.Player.HouseLocation);
         }
+
+
 
         void updateCurrentState()
         {
