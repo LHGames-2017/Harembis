@@ -101,7 +101,7 @@ namespace StarterProject.Web.Api
 
     public struct Player
     {
-        public Player(int health, int maxHealth, Point position, Point houseLocation, int score, int carriedResources, int carryingCapacity)
+        public Player(int health, int maxHealth, Point position, Point houseLocation, int score, int carriedResources, int carryingCapacity, int attackPower, int defence)
         {
             Health = health;
             MaxHealth = maxHealth;
@@ -110,6 +110,8 @@ namespace StarterProject.Web.Api
             Score = score;
             CarriedResources = carriedResources;
             CarryingCapacity = carryingCapacity;
+            AttackPower = attackPower;
+            Defence = defence;
         }
 
         public int Health;
@@ -119,6 +121,8 @@ namespace StarterProject.Web.Api
         public Point Position;
         public Point HouseLocation;
         public int Score;
+        public int AttackPower;
+        public int Defence;
     }
 
     public struct PlayerInfo

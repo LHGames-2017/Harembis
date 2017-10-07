@@ -57,4 +57,33 @@ namespace Harembis
         public HeldItems items;
         public StatLevels levels;
     }
-}
+
+    public enum States
+    {
+        Run,
+        Scout,
+        Mine,
+        GoHome,
+        Fight,
+        Upgrade,
+        Purchase
+    }
+
+    public struct PlayerState
+    {
+        PlayerState(Grade cap, Grade hp )
+        {
+            Capacity = cap;
+            Health = hp;
+        }
+        Grade Capacity, Health;
+    }
+
+    public enum Grade
+    {
+        VERYLOW,
+        LOW,
+        MEDIUM,
+        HIGH,
+        FULL
+    }
