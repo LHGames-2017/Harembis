@@ -120,6 +120,11 @@ namespace Harembis
                 return getCloser(TileType.R);
         }
 
+        public string GoHome()
+        {
+            return getCloser(gameInfo_.Player.HouseLocation);
+        }
+
         public Point pointToMap(Point point)
         {
             int x = point.X - player.X + 10;

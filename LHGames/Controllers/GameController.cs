@@ -18,11 +18,12 @@
             var carte = AIHelper.DeserializeMap(gameInfo.CustomSerializedMap);
 
             // INSERT AI CODE HERE.
+            MapManager manager = new MapManager(gameInfo, carte);
             string answer = "";
             if (gameInfo.Player.CarriedResources != gameInfo.Player.CarryingCapacity)
-                answer = QuickMine.Mine(gameInfo, carte);
+                answer = manager.mine();
             else
-                answer = QuickMine.GoHome(gameInfo, carte);
+                answer = manager.GoHome();
             //string answer = AIHelper.CreateMoveAction(new Point(gameInfo.Player.Position.X + 1, gameInfo.Player.Position.Y));
             QuickMine.CoutMap(carte);
             Console.Write(answer);
