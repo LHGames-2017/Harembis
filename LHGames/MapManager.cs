@@ -70,7 +70,7 @@ namespace Harembis
                     mine();
                     break;
             }
-            return AIHelper.CreateMoveAction(nextPoint);
+            return AIHelper.CreateMoveAction(nPoint);
         }
 
         public bool canMove(Point point)
