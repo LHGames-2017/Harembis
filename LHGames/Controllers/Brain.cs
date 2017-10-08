@@ -17,7 +17,7 @@ namespace Harembis
 
         static Grade HPState, capacityState;
         
-        //static PlayerInfo currentEnemy;
+        static PlayerInfo currentEnemy;
 
         static MapManager mapManager;
 
@@ -67,12 +67,12 @@ namespace Harembis
 
         }
 
-        //string getNextActionFight(){
-        //    if (mapManager.isAdjacent(currentEnemy.Position))
-        //        return AIHelper.CreateAttackAction(currentEnemy.Position);
-        //    else
-        //        return mapManager.getCloser(currentEnemy.Position);
-        //}
+        string getNextActionFight(){
+           if (mapManager.isAdjacent(currentEnemy.Position))
+               return AIHelper.CreateAttackAction(currentEnemy.Position);
+           else
+               return mapManager.getCloser(currentEnemy.Position);
+        }
 
         string getNextActionUpgrade(){
             if (mapManager.isHome())
@@ -91,10 +91,18 @@ namespace Harembis
         void updateCurrentState()
         {
             updatePlayerState();
+            setCurrentEnemey();
             switch (currentState_)
             {
                 case States.Fight:
-
+                    if (mapManager.getDistance(currentEnemy.Position) < 15)
+                    {
+                        currentState_ = States.Fight;
+                    }else
+                    {
+                        currentState_ = States.Mine;
+                    }
+                    break;
                 case States.GoHome:
                     currentState_ = findNextStateGoHome();
                     break;
@@ -127,6 +135,10 @@ namespace Harembis
             {
                 nextState = States.Mine;
             }
+            if (mapManager.getDistance(currentEnemy.Position)<15)
+            {
+                nextState = States.Fight;
+            }
 
             return nextState;
         } 
@@ -149,7 +161,10 @@ namespace Harembis
                     nextState = States.Upgrade;
                     isUpgraded = false;
                 }
-            
+            if (mapManager.getDistance(currentEnemy.Position) < 15)
+            {
+                nextState = States.Fight;
+            }
 
             return nextState;
         }
@@ -196,6 +211,20 @@ namespace Harembis
             }
         }
 
+        void setCurrentEnemey()
+        {
+            float closestDistance=10000000;
+            
+            foreach (KeyValuePair<string, PlayerInfo> player in gameInfo_.OtherPlayers)
+            {
+                if (mapManager.getDistance(player.Value.Position) < closestDistance)
+                {
+                    closestDistance = mapManager.getDistance(player.Value.Position);
+                    currentEnemy = player.Value;
+                }
+            }
+            
+        }
         Tuple<bool, States> Purchase()
         {
             Tuple<bool, States> answer = new Tuple<bool, States>(false,States.Scout);
