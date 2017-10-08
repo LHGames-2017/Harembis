@@ -30,7 +30,7 @@ namespace Harembis
                 {
                     if (map_[10 + j, 10 + i].C == (byte)type)
                     {
-                        tmp = new Point(map_[10 + j, 10 + i].X, map_[10 + j, 10 + i].X);
+                        tmp = new Point(map_[10 + j, 10 + i].X, map_[10 + j, 10 + i].Y);
                         return true;
                     }
                 }
@@ -117,7 +117,9 @@ namespace Harembis
         public string mine()
         {
             if (isAdjacent(TileType.R))
+            {
                 return AIHelper.CreateCollectAction(tmp);
+            }
             else
                 return getCloser(TileType.R);
         }
@@ -140,6 +142,11 @@ namespace Harembis
             else if (y > 20)
                 y = 20;
             return new Point(x, y);
+        }
+
+        public Point mapToPoint(Point point)
+        {
+            return new Point(point.X, point.Y);
         }
         GameInfo gameInfo_;
         Tile[,] map_;

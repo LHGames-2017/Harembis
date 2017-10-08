@@ -144,7 +144,7 @@ namespace Harembis
         {
             States nextState = States.Mine;
 
-            if (capacityState == Grade.FULL )
+            if (capacityState == Grade.FULL)
             {
                     nextState = States.Upgrade;
                     isUpgraded = false;
